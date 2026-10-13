@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block title %}Nueva película | CinePedia{% endblock %}{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <section class="card p-4">
+            <h1 class="h2 mb-4">Nueva película</h1>
+            <form method="post" action="{{ url_for('peliculas.crear') }}">
+                <div class="mb-3"><label class="form-label">Nombre de película</label><input class="form-control"
+                        name="nombre_pelicula" minlength="3" maxlength="100"
+                        value="{{ datos.get('nombre_pelicula', '') if datos else '' }}" required></div>
+                <div class="mb-3"><label class="form-label">Director</label><input class="form-control" name="director"
+                        minlength="2" maxlength="100" value="{{ datos.get('director', '') if datos else '' }}" required>
+                </div>
+                <div class="mb-3"><label class="form-label">Fecha de estreno</label><input class="form-control"
+                        type="date" name="fecha_estreno" value="{{ datos.get('fecha_estreno', '') if datos else '' }}"
+                        required></div>
+                <div class="mb-3"><label class="form-label">Sinopsis</label><textarea class="form-control"
+                        name="sinopsis" rows="5" maxlength="5000"
+                        required>{{ datos.get('sinopsis', '') if datos else '' }}</textarea></div><button
+                    class="btn btn-primary">Guardar película</button> <a class="btn btn-outline-secondary"
+                    href="{{ url_for('peliculas.listar') }}">Cancelar</a>
+            </form>
+        </section>
+    </div>
+</div>{% endblock %}

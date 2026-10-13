@@ -1,0 +1,9 @@
+:root { --cine-dark: #242424; --cine-accent: #e7b64d; --cine-bg: #f5f3ef; }
+body { background: var(--cine-bg); color: #222; }
+.cine-navbar { background: var(--cine-dark); }
+.card { border: 1px solid #dedbd5; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,.045); }
+.btn-primary { background: #242424; border-color: #242424; }
+.btn-primary:hover { background: #444; border-color: #444; }
+.form-control:focus { border-color: var(--cine-accent); box-shadow: 0 0 0 .2rem rgba(231,182,77,.2); }
+.comment { padding: 1rem 0; border-top: 1px solid #e5e1da; }
+.table thead th { background: #efede8; white-space: nowrap; }

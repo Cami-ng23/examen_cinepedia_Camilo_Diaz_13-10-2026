@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Bienvenido
+| CinePedia{% endblock %}{% block content %}
+<div class="text-center card p-5">
+    <h1>Bienvenido a CinePedia</h1>
+    <p>Descubre y comparte películas con la comunidad.</p><a class="btn btn-primary align-self-center"
+        href="{{ url_for('peliculas.listar') }}">Ver películas</a>
+</div>{% endblock %}

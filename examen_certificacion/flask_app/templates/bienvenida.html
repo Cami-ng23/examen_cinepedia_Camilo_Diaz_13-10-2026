@@ -1,0 +1,43 @@
+{% extends "base.html" %}{% block title %}Películas | CinePedia{% endblock %}{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h1 class="h2 mb-1">Películas</h1>
+        <p class="text-secondary mb-0">Explora las películas publicadas por la comunidad.</p>
+    </div><a class="btn btn-primary" href="{{ url_for('peliculas.nueva') }}">+ Nueva peli</a>
+</div>
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Película</th>
+                    <th>Director</th>
+                    <th>Fecha de estreno</th>
+                    <th>Publicado por</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pelicula in peliculas %}<tr>
+                    <td class="fw-semibold">{{ pelicula.nombre_pelicula }}</td>
+                    <td>{{ pelicula.director }}</td>
+                    <td>{{ pelicula.fecha_estreno }}</td>
+                    <td>{{ pelicula.autor_nombre }} {{ pelicula.autor_apellido }}</td>
+                    <td class="text-nowrap"><a
+                            href="{{ url_for('peliculas.detalle', pelicula_id=pelicula.id) }}">Ver</a>{% if
+                        pelicula.usuario_id == session.get('usuario_id') %} · <a
+                            href="{{ url_for('peliculas.editar', pelicula_id=pelicula.id) }}">Editar</a> · <form
+                            class="d-inline" method="post"
+                            action="{{ url_for('peliculas.eliminar', pelicula_id=pelicula.id) }}"
+                            onsubmit="return confirm('¿Seguro que quieres eliminar esta película?');"><button
+                                class="btn btn-link btn-sm text-danger p-0" type="submit">Borrar</button></form>{% endif
+                        %}</td>
+                </tr>
+                {% else %}<tr>
+                    <td colspan="5" class="text-center py-5 text-secondary">Todavía no hay películas. ¡Sé el primero en
+                        publicar una!</td>
+                </tr>{% endfor %}</tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
