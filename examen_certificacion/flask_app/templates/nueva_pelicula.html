@@ -1,34 +1,65 @@
-{% extends "base.html" %}{% block title %}Registro e inicio de sesión | CinePedia{% endblock %}{% block content %}
-<div class="row g-4 justify-content-center">
-    <div class="col-lg-6">
-        <section class="card p-4 h-100">
-            <h1 class="h3 mb-3">Registro</h1>
-            <form method="post" action="{{ url_for('usuarios.registro') }}">
-                <div class="mb-3"><label class="form-label">Nombre</label><input class="form-control" name="nombre"
-                        minlength="2" required></div>
-                <div class="mb-3"><label class="form-label">Apellido</label><input class="form-control" name="apellido"
-                        minlength="2" required></div>
-                <div class="mb-3"><label class="form-label">E-mail</label><input class="form-control" type="email"
-                        name="email" required></div>
-                <div class="mb-3"><label class="form-label">Contraseña</label><input class="form-control"
-                        type="password" name="password" minlength="8" required></div>
-                <div class="mb-3"><label class="form-label">Confirmar contraseña</label><input class="form-control"
-                        type="password" name="confirmar" minlength="8" required></div><button
-                    class="btn btn-primary">Registrar</button>
-            </form>
-        </section>
-    </div>
-    <div class="col-lg-5">
-        <section class="card p-4 h-100">
-            <h2 class="h3 mb-3">Inicio de sesión</h2>
-            <form method="post" action="{{ url_for('usuarios.login') }}">
-                <div class="mb-3"><label class="form-label">E-mail</label><input class="form-control" type="email"
-                        name="login_email" required></div>
-                <div class="mb-3"><label class="form-label">Contraseña</label><input class="form-control"
-                        type="password" name="login_password" required></div><button class="btn btn-primary">Iniciar
-                    sesión</button>
+{% extends "base.html" %}
+
+{% block title %}Nueva película | CinePedia{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <section class="card p-4">
+
+            <h1 class="h2 mb-4">Nueva película</h1>
+
+            <form method="post" action="{{ url_for('peliculas.crear') }}">
+
+                <div class="mb-3">
+                    <label for="nombre_pelicula" class="form-label">
+                        Nombre de película
+                    </label>
+                    <input class="form-control" id="nombre_pelicula"
+                           name="nombre_pelicula" minlength="3"
+                           maxlength="100"
+                           value="{{ datos.get('nombre_pelicula', '') }}"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="director" class="form-label">Director</label>
+                    <input class="form-control" id="director"
+                           name="director" minlength="2" maxlength="100"
+                           value="{{ datos.get('director', '') }}"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fecha_estreno" class="form-label">
+                        Fecha de estreno
+                    </label>
+                    <input class="form-control" id="fecha_estreno"
+                           type="date" name="fecha_estreno"
+                           value="{{ datos.get('fecha_estreno', '') }}"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="sinopsis" class="form-label">Sinopsis</label>
+                    <textarea class="form-control" id="sinopsis"
+                              name="sinopsis" rows="5"
+                              maxlength="5000" required>{{ datos.get('sinopsis', '') }}</textarea>
+                </div>
+
+                <button class="btn btn-primary" type="submit">
+                    Guardar película
+                </button>
+
+                <a class="btn btn-outline-secondary"
+                   href="{{ url_for('peliculas.listar') }}">
+                    Cancelar
+                </a>
+
             </form>
         </section>
     </div>
 </div>
+
 {% endblock %}

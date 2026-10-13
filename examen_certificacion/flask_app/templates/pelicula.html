@@ -1,24 +1,120 @@
-{% extends "base.html" %}{% block title %}Nueva película | CinePedia{% endblock %}{% block content %}
+{% extends "base.html" %}
+
+{% block title %}{{ pelicula.nombre_pelicula }} | CinePedia{% endblock %}
+
+{% block content %}
+
 <div class="row justify-content-center">
-    <div class="col-lg-8">
+    <div class="col-lg-9">
+
+        <article class="card p-4 mb-4">
+
+            <h1 class="h2">{{ pelicula.nombre_pelicula }}</h1>
+
+            <p class="text-secondary">
+                Publicado por {{ pelicula.autor_nombre }}
+                {{ pelicula.autor_apellido }}
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>Director:</strong>
+                {{ pelicula.director }}
+            </p>
+
+            <p>
+                <strong>Fecha de estreno:</strong>
+                {{ pelicula.fecha_estreno }}
+            </p>
+
+            <h2 class="h5 mt-4">Sinopsis</h2>
+
+            <p>{{ pelicula.sinopsis }}</p>
+
+            {% if pelicula.usuario_id == session.get('usuario_id') %}
+                <a class="btn btn-outline-primary"
+                   href="{{ url_for('peliculas.editar', pelicula_id=pelicula.id) }}">
+                    Editar película
+                </a>
+            {% endif %}
+
+            <a class="btn btn-link mt-2"
+               href="{{ url_for('peliculas.listar') }}">
+                Volver al inicio
+            </a>
+
+        </article>
+
         <section class="card p-4">
-            <h1 class="h2 mb-4">Nueva película</h1>
-            <form method="post" action="{{ url_for('peliculas.crear') }}">
-                <div class="mb-3"><label class="form-label">Nombre de película</label><input class="form-control"
-                        name="nombre_pelicula" minlength="3" maxlength="100"
-                        value="{{ datos.get('nombre_pelicula', '') if datos else '' }}" required></div>
-                <div class="mb-3"><label class="form-label">Director</label><input class="form-control" name="director"
-                        minlength="2" maxlength="100" value="{{ datos.get('director', '') if datos else '' }}" required>
+
+            <h2 class="h4">Comentarios</h2>
+
+            {% if pelicula.usuario_id != session.get('usuario_id') %}
+
+                <form method="post"
+                      action="{{ url_for('comentarios.crear', pelicula_id=pelicula.id) }}"
+                      class="mb-4">
+
+                    <label for="contenido" class="form-label">
+                        Escribe un comentario
+                    </label>
+
+                    <textarea class="form-control mb-2"
+                              id="contenido" name="contenido"
+                              rows="3" maxlength="500" required></textarea>
+
+                    <button class="btn btn-primary" type="submit">
+                        Enviar
+                    </button>
+
+                </form>
+
+            {% else %}
+                <p class="text-secondary">
+                    No puedes comentar tu propia película.
+                </p>
+            {% endif %}
+
+            {% for comentario in comentarios %}
+
+                <div class="border-top py-3">
+
+                    <strong>
+                        {{ comentario.autor_nombre }}
+                        {{ comentario.autor_apellido }}
+                    </strong>
+
+                    <p class="mt-2 mb-2">
+                        {{ comentario.contenido }}
+                    </p>
+
+                    {% if comentario.usuario_id == session.get('usuario_id') %}
+
+                        <form method="post"
+                              action="{{ url_for('comentarios.eliminar', comentario_id=comentario.id, pelicula_id=pelicula.id) }}"
+                              onsubmit="return confirm('¿Eliminar este comentario?');">
+
+                            <button class="btn btn-sm btn-outline-danger"
+                                    type="submit">
+                                Borrar
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
                 </div>
-                <div class="mb-3"><label class="form-label">Fecha de estreno</label><input class="form-control"
-                        type="date" name="fecha_estreno" value="{{ datos.get('fecha_estreno', '') if datos else '' }}"
-                        required></div>
-                <div class="mb-3"><label class="form-label">Sinopsis</label><textarea class="form-control"
-                        name="sinopsis" rows="5" maxlength="5000"
-                        required>{{ datos.get('sinopsis', '') if datos else '' }}</textarea></div><button
-                    class="btn btn-primary">Guardar película</button> <a class="btn btn-outline-secondary"
-                    href="{{ url_for('peliculas.listar') }}">Cancelar</a>
-            </form>
+
+            {% else %}
+                <p class="text-secondary">
+                    Todavía no hay comentarios.
+                </p>
+            {% endfor %}
+
         </section>
+
     </div>
-</div>{% endblock %}
+</div>
+
+{% endblock %}

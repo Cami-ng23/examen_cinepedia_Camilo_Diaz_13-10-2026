@@ -1,35 +1,87 @@
-<!doctype html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}CinePedia{% endblock %}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block title %}Registro e inicio de sesión | CinePedia{% endblock %}
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark cine-navbar mb-4">
-    <div class="container">
-      <a class="navbar-brand fw-bold"
-        href="{{ url_for('peliculas.listar') if session.get('usuario_id') else url_for('usuarios.inicio') }}">CinePedia</a>
-      {% if session.get('usuario_id') %}<div class="d-flex align-items-center gap-3"><span>Hola, {{
-          session.get('usuario_nombre', 'usuario') }}</span><a class="btn btn-sm btn-outline-light"
-          href="{{ url_for('peliculas.listar') }}">Inicio</a>
-        <form method="post" action="{{ url_for('usuarios.logout') }}"><button class="btn btn-sm btn-light"
-            type="submit">Cerrar sesión</button></form>
-      </div>{% endif %}
+{% block content %}
+
+<div class="row g-4 justify-content-center">
+
+    <div class="col-lg-6">
+        <section class="card p-4 h-100">
+            <h1 class="h3 mb-3">Registro</h1>
+
+            <form method="post" action="{{ url_for('usuarios.registro') }}">
+
+                <div class="mb-3">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input class="form-control" id="nombre"
+                           name="nombre" minlength="2" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="apellido">Apellido</label>
+                    <input class="form-control" id="apellido"
+                           name="apellido" minlength="2" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input class="form-control" id="email"
+                           type="email" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="password">Contraseña</label>
+                    <input class="form-control" id="password"
+                           type="password" name="password"
+                           minlength="8" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="confirmar">
+                        Confirmar contraseña
+                    </label>
+                    <input class="form-control" id="confirmar"
+                           type="password" name="confirmar"
+                           minlength="8" required>
+                </div>
+
+                <button class="btn btn-primary" type="submit">
+                    Registrar
+                </button>
+            </form>
+        </section>
     </div>
-  </nav>
-  <main class="container pb-5">
-    {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div
-      class="alert {{ 'alert-success' if category == 'success' else 'alert-danger' }} alert-dismissible fade show"
-      role="alert">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"
-        aria-label="Cerrar"></button></div>{% endfor %}{% endwith %}
-    {% block content %}{% endblock %}
-  </main>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 
-</html>
+    <div class="col-lg-5">
+        <section class="card p-4 h-100">
+            <h2 class="h3 mb-3">Inicio de sesión</h2>
+
+            <form method="post" action="{{ url_for('usuarios.login') }}">
+
+                <div class="mb-3">
+                    <label class="form-label" for="login_email">
+                        E-mail
+                    </label>
+                    <input class="form-control" id="login_email"
+                           type="email" name="login_email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="login_password">
+                        Contraseña
+                    </label>
+                    <input class="form-control" id="login_password"
+                           type="password" name="login_password" required>
+                </div>
+
+                <button class="btn btn-primary" type="submit">
+                    Iniciar sesión
+                </button>
+            </form>
+        </section>
+    </div>
+
+</div>
+
+{% endblock %}
