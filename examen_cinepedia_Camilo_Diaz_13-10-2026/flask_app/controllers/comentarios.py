@@ -20,6 +20,5 @@ def crear(pelicula_id):
 def eliminar(comentario_id, pelicula_id):
     if not session.get("usuario_id"):
         return redirect(url_for("usuarios.inicio"))
-    # Bono: solo se elimina si el comentario pertenece al usuario conectado.
     Comentario.eliminar(comentario_id, session["usuario_id"])
     return redirect(url_for("peliculas.detalle", pelicula_id=pelicula_id))

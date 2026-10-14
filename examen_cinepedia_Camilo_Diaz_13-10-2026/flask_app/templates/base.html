@@ -31,11 +31,6 @@
                     Hola, {{ session.get('usuario_nombre', 'usuario') }}
                 </span>
 
-                <a class="btn btn-sm btn-outline-light"
-                   href="{{ url_for('peliculas.listar') }}">
-                    Inicio
-                </a>
-
                 <form method="post"
                       action="{{ url_for('usuarios.logout') }}">
                     <button class="btn btn-sm btn-light" type="submit">
