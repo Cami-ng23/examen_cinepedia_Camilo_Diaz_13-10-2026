@@ -11,9 +11,9 @@ class MySQLConnection:
 
     def query_db(self, query, data=None):
         connection = pymysql.connect(
-            host=os.getenv("MYSQL_HOST", "localhost"),
-            user=os.getenv("MYSQL_USER", "root"),
-            password=os.getenv("MYSQL_PASSWORD", ""),
+            host=os.getenv("MYSQL_HOST"),
+            user=os.getenv("MYSQL_USER"),
+            password=os.getenv("MYSQL_PASSWORD"),
             database=self.db,
             cursorclass=pymysql.cursors.DictCursor
         )
